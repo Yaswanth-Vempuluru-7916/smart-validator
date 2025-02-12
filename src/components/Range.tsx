@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import { useThrottle } from '../hooks/debounceThrottle';
 
-interface RangeProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface RangeProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> {
   label: string;
   error?: string;
 }
 
-const Range: React.FC<RangeProps> = ({ label, error, ...props }) => {
-  const [value, setValue] = useState(props.defaultValue || 0);
+const Range: React.FC<RangeProps> = ({ label, error, defaultValue, ...props }) => {
+  const [value, setValue] = useState(defaultValue || 0);
   const throttledSetValue = useThrottle(setValue, 100);
 
   return (

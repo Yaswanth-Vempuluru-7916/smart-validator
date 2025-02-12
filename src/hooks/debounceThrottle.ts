@@ -1,6 +1,6 @@
 // src/hooks/debounceThrottle.ts
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -24,14 +24,11 @@ export function useThrottle<T extends (...args: any[]) => any>(
 ): T {
   const [lastCall, setLastCall] = useState(0);
 
-  return useCallback(
-    (...args: Parameters<T>) => {
-      const now = Date.now();
-      if (now - lastCall >= delay) {
-        setLastCall(now);
-        return callback(...args);
-      }
-    },
-    [callback, delay, lastCall]
-  ) as T;
+  return ((...args: Parameters<T>) => {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      setLastCall(now);
+      return callback(...args);
+    }
+  }) as T;
 }

@@ -1,7 +1,7 @@
 // src/components/Password.tsx
-
 import React, { useState } from 'react';
 import Input from './Input';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface PasswordProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -28,18 +28,26 @@ const Password: React.FC<PasswordProps> = (props) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative group">
       <Input
         {...props}
         type={showPassword ? 'text' : 'password'}
         validate={validatePassword}
+        className="pr-12" // Make room for the button
       />
       <button
         type="button"
-        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+        className="absolute right-3 top-[34px] p-1.5 rounded-md text-gray-400 
+                   hover:text-gray-200 focus:outline-none focus:text-gray-200
+                   transition-colors duration-200"
         onClick={() => setShowPassword(!showPassword)}
+        aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
-        {showPassword ? 'Hide' : 'Show'}
+        {showPassword ? (
+          <EyeOff className="w-4 h-4" />
+        ) : (
+          <Eye className="w-4 h-4" />
+        )}
       </button>
     </div>
   );

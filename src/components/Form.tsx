@@ -1,5 +1,4 @@
 // src/components/Form.tsx
-
 import React, { forwardRef } from 'react';
 
 interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -13,8 +12,14 @@ const Form = forwardRef<HTMLFormElement, FormProps>(({ children, onSubmit, ...pr
   };
 
   return (
-    <form {...props} ref={ref} onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-md">
-      {children}
+    <form 
+      {...props} 
+      ref={ref} 
+      onSubmit={handleSubmit} 
+      className="relative backdrop-blur-xl bg-gray-900/50 p-8 rounded-2xl shadow-xl border border-gray-700/50 space-y-6"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl" />
+      <div className="relative">{children}</div>
     </form>
   );
 });

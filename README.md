@@ -1,29 +1,29 @@
-
-```markdown
 # Smart Validator
 
 Smart Validator is a reusable and customizable Form Validator Widget built with React and TypeScript. This widget provides comprehensive form validation, error handling, micro-animations, and customizable styles using Tailwind CSS. It is designed to be easy to import into other React applications.
 
 ## Table of Contents
 
-- [Features](#features)
-- [Components](#components)
-  - [Input](#input)
-  - [Email](#email)
-  - [Password](#password)
-  - [Select](#select)
-  - [TextArea](#textarea)
-  - [Checkbox](#checkbox)
-  - [Radio](#radio)
-  - [Range](#range)
-  - [Button](#button)
-  - [Form](#form)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Example](#example)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
+- [Smart Validator](#smart-validator)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Components](#components)
+    - [Input](#input)
+    - [Email](#email)
+    - [Password](#password)
+    - [Select](#select)
+    - [TextArea](#textarea)
+    - [Checkbox](#checkbox)
+    - [Radio](#radio)
+    - [Range](#range)
+    - [Button](#button)
+    - [Form](#form)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Example](#example)
+  - [Customization](#customization)
+    - [Example of Custom Styles](#example-of-custom-styles)
+  - [Contributing](#contributing)
 
 ## Features
 
@@ -165,7 +165,4 @@ Contributions are welcome! If you would like to contribute to the Smart Validato
 4. Push to the branch (`git push origin feature-branch`).
 5. Create a new Pull Request.
 
-## License
 
-
-```

@@ -1,6 +1,6 @@
 # Smart Validator
 
-![Form Widget](public/assets/images/smart-validator.png)
+![Form Widget](https://raw.githubusercontent.com/Yaswanth-Vempuluru-7916/smart-validator/main/public/assets/images/smart-validator.png)
 
 A customizable and reusable smart validator built with React, TypeScript, and Tailwind CSS. This widget includes advanced validation, error handling, micro-animations, and customizable styles, all in a production-ready npm package.
 

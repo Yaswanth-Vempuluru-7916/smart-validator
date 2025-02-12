@@ -1,5 +1,5 @@
 {
-  "name": "smart-validator",
+  "name": "smart-validator-ts",
   "version": "1.0.0",
   "description": "A simple form validating widget",
   "main": "dist/index.js",

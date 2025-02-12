@@ -104,13 +104,13 @@ Smart Validator is a reusable and customizable Form Validator Widget built with 
 To install the Smart Validator package, use npm or yarn:
 
 ```bash
-npm install smart-validator
+npm install smart-validator-ts
 ```
 
 or
 
 ```bash
-yarn add smart-validator
+yarn add smart-validator-ts
 ```
 
 ## Usage
@@ -137,7 +137,7 @@ import {
   Radio, 
   Range, 
   Button 
-} from "smart-validator";
+} from "smart-validator-ts";
 
 
 const App: React.FC = () => {

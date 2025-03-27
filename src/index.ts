@@ -5,3 +5,4 @@ export { Email } from './components/Email';
 export { Password } from './components/Password';
 export { Button } from './components/Button';
 export { DatePicker } from './components/DatePicker';
+export {Username} from './components/Username'

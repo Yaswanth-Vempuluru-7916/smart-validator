@@ -4,6 +4,7 @@
   "description": "A simple form validating widget",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },
@@ -15,6 +16,8 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "lucide-react": "^0.475.0"
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

@@ -1,6 +1,6 @@
 # Smart Validator
 
-![Form Widget](https://raw.githubusercontent.com/Yaswanth-Vempuluru-7916/smart-validator-ui/main/public/assets/images/smart-validator.png)
+![Form Widget](https://raw.githubusercontent.com/Yaswanth-Vempuluru-7916/smart-validator/main/public/assets/images/smart-validator-ui.png)
 
 A reusable and customizable **Form Validator Widget** built with **React** and **TypeScript**. This npm package provides modular form components with real-time validation, debouncing for inputs, and throttling for actions. Easily integrate into any React application.
 

@@ -1,60 +1,75 @@
-// src/components/Input.tsx
-import React, { useState, useEffect } from 'react';
-import { useDebounce } from '../hooks/debounceThrottle';
+import { useState, ChangeEvent, useEffect } from "react";
+import { useDebounce } from "../hooks/debounceThrottle";
+import { Eye, EyeOff } from "lucide-react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
+interface InputProps {
+  type: string;
+  value: string;
+  onChange: (value: string) => void;
   validate?: (value: string) => string | null;
+  debounceDelay?: number;
+  placeholder?: string;
+  showToggle?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ label, error, validate, ...props }) => {
-  const [value, setValue] = useState('');
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [isFocused, setIsFocused] = useState(false);
-  const debouncedValue = useDebounce(value, 300);
+export const Input = ({
+  type,
+  value,
+  onChange,
+  validate,
+  debounceDelay = 500,
+  placeholder,
+  showToggle = false,
+}: InputProps) => {
+  const [error, setError] = useState<string | null>(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const debouncedValue = useDebounce(value, debounceDelay);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onChange(newValue);
+  };
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
 
   useEffect(() => {
     if (validate) {
-      const validationError = validate(debouncedValue);
-      setLocalError(validationError);
+      const validationResult = validate(debouncedValue);
+      setError(validationResult);
     }
   }, [debouncedValue, validate]);
 
+  const inputType = showToggle && isPasswordVisible ? "text" : type;
+
   return (
-    <div className="mb-4 group">
-      <label className="block text-sm font-medium mb-2 text-gray-300 transition-colors group-hover:text-gray-200" 
-             htmlFor={props.id}>
-        {label}
-      </label>
+    <div className="flex flex-col space-y-2">
       <div className="relative">
         <input
-          {...props}
-          className={`w-full px-4 py-2.5 bg-gray-800/50 backdrop-blur-sm border-2 rounded-lg 
-                     text-gray-200 placeholder-gray-500
-                     transition-all duration-200
-                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900
-                     ${localError || error 
-                       ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' 
-                       : 'border-gray-700/50 focus:border-blue-500 focus:ring-blue-500/50'}`}
+          type={inputType}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onChange={handleChange}
+          placeholder={placeholder}
+          className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-600/10 text-white placeholder-gray-300 backdrop-blur-md border border-white border-opacity-20 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 w-full"
         />
-        <div className={`absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 transition-opacity duration-200 pointer-events-none
-                        ${isFocused ? 'opacity-100' : 'group-hover:opacity-50'}`} />
+        {showToggle && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white focus:outline-none"
+          >
+            {isPasswordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        )}
       </div>
-      {(localError || error) && (
-        <p className="text-red-400 text-xs mt-1.5 flex items-center">
-          <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          {localError || error}
-        </p>
-      )}
+      <div className="h-8"> {/* Increased from h-6 to h-8 */}
+        {error && (
+          <span className="text-red-300 text-sm bg-red-500/10 px-2 py-1 rounded backdrop-blur-md">
+            {error}
+          </span>
+        )}
+      </div>
     </div>
   );
 };
-
-export default Input;

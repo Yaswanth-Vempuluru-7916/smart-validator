@@ -1,34 +1,64 @@
-// src/hooks/debounceThrottle.ts
+import { useEffect, useRef, useCallback, useState } from "react";
 
-import { useState, useEffect } from 'react';
+// Type for the generic value that can be debounced or throttled
+type AnyFunction = (...args: any[]) => any;
 
+// Debounce Hook (Updated)
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
+    // Clear any existing timeout
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+    }
 
+    // Set a new timeout to update the debounced value
+    timeoutRef.current = setTimeout(() => {
+      setDebouncedValue(value); // Update state after delay
+    }, delay) as unknown as number;
+
+    // Cleanup on unmount or value change
     return () => {
-      clearTimeout(handler);
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+      }
     };
   }, [value, delay]);
 
   return debouncedValue;
 }
 
-export function useThrottle<T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number
-): T {
-  const [lastCall, setLastCall] = useState(0);
+// Throttle Hook (Unchanged)
+export function useThrottle(callback: AnyFunction, limit: number) {
+  const lastCallRef = useRef<number>(0);
+  const timeoutRef = useRef<number | null>(null);
 
-  return ((...args: Parameters<T>) => {
-    const now = Date.now();
-    if (now - lastCall >= delay) {
-      setLastCall(now);
-      return callback(...args);
-    }
-  }) as T;
+  const throttledFn = useCallback(
+    (...args: any[]) => {
+      const now = Date.now();
+      if (now - lastCallRef.current >= limit) {
+        callback(...args);
+        lastCallRef.current = now;
+      } else if (timeoutRef.current === null) {
+        timeoutRef.current = setTimeout(() => {
+          callback(...args);
+          lastCallRef.current = Date.now();
+          timeoutRef.current = null;
+        }, limit - (now - lastCallRef.current)) as unknown as number;
+      }
+    },
+    [callback, limit]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return throttledFn;
 }

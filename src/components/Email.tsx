@@ -1,62 +1,34 @@
-// src/components/Email.tsx
+import { Input } from "./Input";
 
-import React from 'react';
-import Input from './Input';
-
-interface EmailProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
+interface EmailProps {
+  value: string;
+  onChange: (value: string) => void;
+  debounceDelay?: number;
 }
 
-const Email: React.FC<EmailProps> = (props) => {
-  const validateEmail = (value: string): string | null => {
-    if (!value) return null; // Allow empty input
-
-    // Check for @ symbol
-    if (!value.includes('@')) {
-      return 'Email must contain @';
-    }
-
-    const [username, domain] = value.split('@');
-
-    // Check username
-    if (!username) {
-      return 'Email must have a username before @';
-    }
-
-    // Check domain
-    if (!domain) {
-      return 'Email must have a domain after @';
-    }
-
-    // Check for . in domain
-    if (!domain.includes('.')) {
-      return 'Email domain must contain a .';
-    }
-
-    const [domainName, extension] = domain.split('.');
-
-    // Check domain name
-    if (!domainName) {
-      return 'Email must have a domain name';
-    }
-
-    // Check extension
-    if (!extension || extension.length < 2) {
-      return 'Email must have a valid domain extension (at least 2 characters)';
-    }
-
-    return null; // Valid email
+export const Email = ({ value, onChange, debounceDelay }: EmailProps) => {
+  const validateEmail = (email: string): string | null => {
+    if (!email) return "Email is required";
+    const [username, domain] = email.split("@");
+    if (!username || username.length === 0) return "Email must have a username before @";
+    if (!domain || domain.length === 0) return "Email must have a domain after @";
+    const domainParts = domain.split(".");
+    if (domainParts.length < 2 || !domainParts[0]) return "Email domain must contain a .";
+    const extension = domainParts[domainParts.length - 1];
+    if (!extension || extension.length < 2) return "Email must have a valid domain extension (at least 2 characters)";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return "Invalid email format";
+    return null;
   };
 
   return (
     <Input
-      {...props}
       type="email"
+      value={value}
+      onChange={onChange}
       validate={validateEmail}
-      autoComplete="email"
+      debounceDelay={debounceDelay}
+      placeholder="Enter your email"
     />
   );
-};
-
-export default Email;
+}
